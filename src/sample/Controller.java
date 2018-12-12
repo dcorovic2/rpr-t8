@@ -18,6 +18,7 @@ public class Controller {
     public Button btn;
     public Button prekidBtn;
     public Thread nit;
+    public boolean stopSearch;
 
     public void onClick(ActionEvent actionEvent) {
         String s = txtField.getText();
@@ -25,7 +26,7 @@ public class Controller {
         DirectoryChooser dc = new DirectoryChooser();
         dc.setInitialDirectory(new File(System.getProperty("user.home")));
         File f = dc.getInitialDirectory();
-
+/*
         nit = new Thread(() -> {
             btn.getStyleClass().add("dugmeBoja");
             btn.setDisable(true);
@@ -46,12 +47,31 @@ public class Controller {
             btn.getStyleClass().add("dugmePrekid");
 
         });
-        nit.start();
+        nit.start();*/
+
+        stopSearch = false;
+        listV.getItems().clear();
+        btn.setDisable(true);
+        prekidBtn.setDisable(false);
+
+
 
     }
 
+    public void searchRec(File dir){
+        for(File file: dir.listFiles()){
+            if(stopSearch) break;
+            else if(file.isDirectory()){
+                searchRec(file);
+            }
+            else if(file.isFile() && file.getName().contains(txtField.getText())) {
+                Platform.runLater(() -> listV.getItems().add(file.getPath()));
+            }
+        }
+    }
+
     public void prekidClick(ActionEvent actionEvent) {
-        if(nit.isAlive()) nit.setDaemon(true);
+        stopSearch = false;
     }
 
     public void prekidEnable(KeyEvent keyEvent) {
