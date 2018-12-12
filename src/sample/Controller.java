@@ -29,25 +29,19 @@ public class Controller {
         File f = dc.getInitialDirectory();
 
         nit = new Thread(() -> {
-            btn.getStyleClass().add("dugmeBoja");
+          //  btn.getStyleClass().add("dugmeBoja");
             btn.setDisable(true);
             prekidBtn.setDisable(false);
-            prekidBtn.getStyleClass().removeAll("dugmeBoja");
-            prekidBtn.getStyleClass().add("dugmePrekid");
+         /*   prekidBtn.getStyleClass().removeAll("dugmeBoja");
+            prekidBtn.getStyleClass().add("dugmePrekid");*/
 
             for(File file: f.listFiles()){
-              /*  if(file.isDirectory()){
-
-                } else if(file.getPath().contains(s)){
-                    Platform.runLater(() -> listV.getItems().add(file.getPath()));
-                }*/
-
               searchRec(f);
             }
 
-            btn.setDisable(false);
+           /* btn.setDisable(false);
             btn.getStyleClass().removeAll("dugmeBoja");
-            btn.getStyleClass().add("dugmePrekid");
+            btn.getStyleClass().add("dugmePrekid");*/
 
         });
         nit.start();
@@ -68,7 +62,12 @@ public class Controller {
 
     public void prekidClick(ActionEvent actionEvent) {
         stopSearch = false;
-        nit.setDaemon(false);
+        nit.stop();
+
+        btn.setDisable(false);
+        prekidBtn.setDisable(true);
+       /* btn.getStyleClass().removeAll("dugmeBoja");
+        btn.getStyleClass().add("dugmePrekid");*/
     }
 
     public void prekidEnable(KeyEvent keyEvent) {
